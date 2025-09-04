@@ -1,0 +1,17 @@
+# Node.js
+node_modules/
+npm-debug.log*
+.env*
+
+# Logs
+logs/
+*.log
+
+# Optional caches
+.npm/
+.eslintcache
+.node_repl_history
+
+# Build artifacts
+dist/
+build/
