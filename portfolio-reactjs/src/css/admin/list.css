@@ -1,0 +1,90 @@
+.users-container {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.users-container h3 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #111827;
+}
+
+.users-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.users-add-btn {
+  padding: 8px 16px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.users-search-input {
+  padding: 8px 12px;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.users-table thead tr {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.users-table th,
+.users-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.users-pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.users-pagination button {
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+  border: 1px solid #3b82f6;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.users-pagination .active-page {
+  background-color: #2563eb;
+  color: white;
+}
+
+.users-pagination .inactive-page {
+  background-color: white;
+  color: #3b82f6;
+}
+
+.users-pagination button:disabled {
+  background-color: #e0e7ff;
+  color: #999;
+  cursor: not-allowed;
+}
