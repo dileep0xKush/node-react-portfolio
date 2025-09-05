@@ -12,12 +12,13 @@ const seedUsers = async () => {
     // Clear old users
     await User.deleteMany();
 
-    // Generate 50 dummy users
+
     const users = [];
     for (let i = 0; i < 50; i++) {
       users.push({
         name: faker.person.fullName(),
         email: faker.internet.email(),
+        password: faker.internet.password(),
         role: faker.helpers.arrayElement(["admin", "user"]),
       });
     }

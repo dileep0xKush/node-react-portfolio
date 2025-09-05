@@ -2,9 +2,18 @@ const userService = require("../services/userService");
 
 exports.getUsers = async (req, res, next) => {
   try {
-    console.log('Hello')
-    const users = await userService.getAllUsers();
-    res.json(users);
+    const { page = 1, limit = 10, search = "" } = req.query;
+
+    const pageNumber = Math.max(1, parseInt(page, 10) || 1);
+    const pageSize = Math.max(1, parseInt(limit, 10) || 10);
+
+    const result = await userService.getUsersList({
+      page: pageNumber,
+      limit: pageSize,
+      search,
+    });
+
+    res.json(result);
   } catch (error) {
     next(error);
   }
