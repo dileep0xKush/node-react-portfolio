@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const bcrypt = require('bcryptjs');
 
 exports.getAllUsers = async () => {
   return await User.find().select("name email role");
@@ -38,8 +39,17 @@ exports.getUsersList = async ({ page = 1, limit = 10, search = "" }) => {
 
 
 exports.createUser = async (data) => {
-  const user = new User(data);
-  return await user.save();
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(data.password, salt);
+
+  const user = new User({
+    ...data,
+    password: hashedPassword, 
+  });
+  const savedUser = await user.save();
+  const userObj = savedUser.toObject();
+  delete userObj.password;
+  return userObj;
 };
 
 exports.getUserById = async (id) => {

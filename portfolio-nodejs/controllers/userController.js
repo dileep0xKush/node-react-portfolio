@@ -1,4 +1,12 @@
 const userService = require("../services/userService");
+const Joi = require('joi');
+
+const userSchema = Joi.object({
+  name: Joi.string().min(3).max(30).required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+  role: Joi.string().valid('user', 'admin').default('user'),
+});
 
 exports.getUsers = async (req, res, next) => {
   try {
@@ -18,11 +26,21 @@ exports.getUsers = async (req, res, next) => {
     next(error);
   }
 };
-
 exports.createUser = async (req, res, next) => {
   try {
-    const user = await userService.createUser(req.body);
-    res.status(201).json(user);
+    const { error, value } = userSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        message: 'Validation error',
+        details: error.details.map((d) => d.message),
+      });
+    }
+    const user = await userService.createUser(value);
+
+    res.status(201).json({
+      message: "User created successfully",
+      user,
+    });
   } catch (error) {
     next(error);
   }
