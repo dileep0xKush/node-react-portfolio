@@ -9,7 +9,8 @@
     "seed:users": "node seeder/userSeeder.js",
     "seed:skills": "node seeder/skillSeeder.js",
     "seed:service": "node seeder/serviceSeeder.js",
-    "seed:portfolio": "node seeder/portfolioSeeder.js"
+    "seed:portfolio": "node seeder/portfolioSeeder.js",
+    "seed:testimonials": "node seeder/testimonialSeeder.js"
   },
   "keywords": [],
   "author": "",

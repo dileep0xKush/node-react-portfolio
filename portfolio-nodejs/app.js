@@ -5,7 +5,7 @@ const userRoutes = require("./routes/userRoutes");
 const skillRoutes = require('./routes/skillRoutes');
 const serviceRoutes = require("./routes/serviceRoutes");
 const portfolioRoutes = require('./routes/portfolioRoutes');
-
+const testimonialRoutes = require('./routes/testimonialRoutes');
 const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 const cors = require('cors');
@@ -26,6 +26,7 @@ app.use("/users", userRoutes);
 app.use("/skills", skillRoutes);
 app.use("/services", serviceRoutes);
 app.use("/portfolio", portfolioRoutes);
+app.use("/testimonials", testimonialRoutes);
 // Error Handler
 app.use(errorHandler);
 
