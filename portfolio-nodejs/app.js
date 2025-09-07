@@ -4,6 +4,7 @@ const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const skillRoutes = require('./routes/skillRoutes');
 const serviceRoutes = require("./routes/serviceRoutes");
+const portfolioRoutes = require('./routes/portfolioRoutes');
 
 const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
@@ -24,7 +25,7 @@ app.use(logger);
 app.use("/users", userRoutes);
 app.use("/skills", skillRoutes);
 app.use("/services", serviceRoutes);
-
+app.use("/portfolio", portfolioRoutes);
 // Error Handler
 app.use(errorHandler);
 

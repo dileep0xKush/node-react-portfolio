@@ -8,7 +8,8 @@
     "dev": "nodemon app.js",
     "seed:users": "node seeder/userSeeder.js",
     "seed:skills": "node seeder/skillSeeder.js",
-    "seed:service": "node seeder/serviceSeeder.js"
+    "seed:service": "node seeder/serviceSeeder.js",
+    "seed:portfolio": "node seeder/portfolioSeeder.js"
   },
   "keywords": [],
   "author": "",
