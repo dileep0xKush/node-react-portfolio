@@ -5,6 +5,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import '../../css/admin/admin.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { renderRoutes } from "react-router-config";
 

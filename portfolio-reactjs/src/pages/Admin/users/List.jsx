@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import '../../../css/admin/list.css';
 import { fetchUsers } from '../../../modules/admin/users';
 import useDebounce from '../../../hooks/useDebounce';
@@ -53,12 +54,9 @@ const Users = () => {
       <h3 className="users-header">Users Management</h3>
 
       <div className="top-bar">
-        <button
-          className="add-user-button"
-          onClick={() => alert('Add User clicked')}
-        >
+        <Link to="/admin/users/create" className="add-user-button">
           Add User
-        </button>
+        </Link>
 
         <input
           ref={inputRef}

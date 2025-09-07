@@ -5,7 +5,6 @@ exports.getAllUsers = async () => {
   return await User.find().select("name email role");
 };
 
-
 exports.getUsersList = async ({ page = 1, limit = 10, search = "" }) => {
   const pageNumber = Math.max(1, parseInt(page, 10) || 1);
   const pageSize = Math.max(1, parseInt(limit, 10) || 10);
@@ -25,7 +24,8 @@ exports.getUsersList = async ({ page = 1, limit = 10, search = "" }) => {
   const users = await User.find(query)
     .select("name email role")
     .skip(skip)
-    .limit(pageSize);
+    .limit(pageSize)
+    .sort({ createdAt: -1 });
 
   return {
     users,
@@ -44,7 +44,7 @@ exports.createUser = async (data) => {
 
   const user = new User({
     ...data,
-    password: hashedPassword, 
+    password: hashedPassword,
   });
   const savedUser = await user.save();
   const userObj = savedUser.toObject();

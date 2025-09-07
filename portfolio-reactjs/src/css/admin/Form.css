@@ -77,3 +77,35 @@
 .user-form-row .user-form-group {
   flex: 1;
 }
+.user-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem; /* spacing below header */
+}
+
+.user-form-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.user-form-return {
+  background-color: #000;
+  border: 1px solid #000;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.user-form-return:hover:not(:disabled) {
+  background-color: #222;
+  color: #fff;
+}
+
+.user-form-return:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
