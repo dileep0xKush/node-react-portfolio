@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import '../../../css/admin/list.css';
 import { fetchUsers } from '../../../modules/admin/users';
 import useDebounce from '../../../hooks/useDebounce';
+import BaseTable from '../../../components/common/BaseTable';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [inputValue, setInputValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -18,7 +18,6 @@ const Users = () => {
 
   useEffect(() => {
     const loadUsers = async () => {
-      setLoading(true);
       try {
         const data = await fetchUsers({ page: currentPage, limit: usersPerPage, search: debouncedSearchTerm });
         setUsers(data.users);
@@ -26,7 +25,6 @@ const Users = () => {
       } catch (error) {
         console.error('Failed to fetch users:', error);
       } finally {
-        setLoading(false);
       }
     };
 
@@ -69,66 +67,39 @@ const Users = () => {
         />
       </div>
 
-      {/* Optional loading message or spinner */}
-      {loading && <p className="loading-indicator">Loading users...</p>}
+      <BaseTable
+        columns={[
+          { key: 'name', label: 'Name' },
+          { key: 'email', label: 'Email' },
+          { key: 'role', label: 'Role' },
+        ]}
+        data={users}
+        getRowId={(user) => user.id || user._id}
+        actions={[
+          {
+            type: 'link',
+            label: 'View',
+            className: 'view',
+            path: id => `/admin/users/view/${id}`
+          },
+          {
+            type: 'link',
+            label: 'Edit',
+            className: 'edit',
+            path: id => `/admin/users/edit/${id}`
+          },
+          {
+            type: 'button',
+            label: 'Delete',
+            className: 'delete',
+            onClick: (id) => (id),
+          },
+        ]}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={goToPage}
+      />
 
-      <table className="users-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length === 0 ? (
-            <tr>
-              <td colSpan="4" className="no-users">
-                No users found.
-              </td>
-            </tr>
-          ) : (
-            users.map(user => (
-              <tr key={user.id || user._id}>
-                <td>{user.id || user._id}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-
-      <div className="pagination">
-        <button
-          onClick={() => goToPage(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Prev
-        </button>
-
-        {[...Array(totalPages)].map((_, i) => {
-          const page = i + 1;
-          return (
-            <button
-              key={page}
-              onClick={() => goToPage(page)}
-              className={currentPage === page ? 'active' : ''}
-            >
-              {page}
-            </button>
-          );
-        })}
-
-        <button
-          onClick={() => goToPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
     </div>
   );
 };
