@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const skillRoutes = require('./routes/skillRoutes');
+const serviceRoutes = require("./routes/serviceRoutes");
 
 const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
@@ -22,6 +23,7 @@ app.use(logger);
 
 app.use("/users", userRoutes);
 app.use("/skills", skillRoutes);
+app.use("/services", serviceRoutes);
 
 // Error Handler
 app.use(errorHandler);
