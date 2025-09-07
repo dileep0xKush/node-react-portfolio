@@ -7,12 +7,10 @@ const User = require("../models/User");
 
 const seedUsers = async () => {
   try {
+
     await connectDB();
-
-    // Clear old users
+    
     await User.deleteMany();
-
-
     const users = [];
     for (let i = 0; i < 50; i++) {
       users.push({
@@ -25,10 +23,10 @@ const seedUsers = async () => {
 
     await User.insertMany(users);
 
-    console.log("✅ 50 Dummy Users Inserted");
+    console.log("50 Dummy Users Inserted");
     process.exit();
   } catch (err) {
-    console.error("❌ Seeding Failed:", err.message);
+    console.error("Seeding Failed:", err.message);
     process.exit(1);
   }
 };

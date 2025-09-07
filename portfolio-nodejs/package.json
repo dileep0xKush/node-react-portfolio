@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "seed:users": "node seeder/userSeeder.js"
+    "seed:users": "node seeder/userSeeder.js",
+    "seed:skills": "node seeder/skillSeeder.js"
   },
   "keywords": [],
   "author": "",

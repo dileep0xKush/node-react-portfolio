@@ -2,6 +2,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
+const skillRoutes = require('./routes/skillRoutes');
+
 const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 const cors = require('cors');
@@ -19,6 +21,7 @@ app.use(logger);
 // Routes
 
 app.use("/users", userRoutes);
+app.use("/skills", skillRoutes);
 
 // Error Handler
 app.use(errorHandler);
