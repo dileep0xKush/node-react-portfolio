@@ -1,115 +1,115 @@
-import React, { useState } from 'react';
+// src/pages/Admin/testimonials/List.jsx
+import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import '../../../css/admin/list.css';
+import { fetchTestimonialsHandler } from '../../../modules/admin/testimonials';
+import useDebounce from '../../../hooks/useDebounce';
+import BaseTable from '../../../components/common/BaseTable';
 
-const sampleUsers = [
-    { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Admin' },
-    { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'Editor' },
-    { id: 3, name: 'Carol White', email: 'carol@example.com', role: 'Viewer' },
-    { id: 4, name: 'David Green', email: 'david@example.com', role: 'Editor' },
-    { id: 5, name: 'Eve Black', email: 'eve@example.com', role: 'Admin' },
-    { id: 6, name: 'Frank Brown', email: 'frank@example.com', role: 'Viewer' },
-    { id: 7, name: 'Grace Lee', email: 'grace@example.com', role: 'Editor' },
-    { id: 8, name: 'Hank Miller', email: 'hank@example.com', role: 'Viewer' },
-    { id: 9, name: 'Ivy Wilson', email: 'ivy@example.com', role: 'Admin' },
-    { id: 10, name: 'Jack Davis', email: 'jack@example.com', role: 'Editor' },
-    { id: 11, name: 'Kate Harris', email: 'kate@example.com', role: 'Viewer' },
-    { id: 12, name: 'Leo Martin', email: 'leo@example.com', role: 'Editor' },
-];
-
-const Users = () => {
-    const [users, setUsers] = useState(sampleUsers);
-    const [searchTerm, setSearchTerm] = useState('');
+const Testimonials = () => {
+    const [testimonials, setTestimonials] = useState([]);
+    const [inputValue, setInputValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const usersPerPage = 10;
+    const [totalPages, setTotalPages] = useState(1);
 
-    const filteredUsers = users.filter(user =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const debouncedSearchTerm = useDebounce(inputValue, 500);
+    const testimonialsPerPage = 10;
 
-    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
-    const indexOfLastUser = currentPage * usersPerPage;
-    const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        const loadTestimonials = async () => {
+            try {
+                const data = await fetchTestimonialsHandler({
+                    page: currentPage,
+                    limit: testimonialsPerPage,
+                    search: debouncedSearchTerm,
+                });
+                setTestimonials(data.testimonials);
+                setTotalPages(data.totalPages);
+            } catch (error) {
+                console.error('Failed to fetch testimonials:', error);
+            }
+        };
+
+        loadTestimonials();
+    }, [currentPage, debouncedSearchTerm]);
+
+    useEffect(() => {
+        setCurrentPage(1);
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [debouncedSearchTerm]);
 
     const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
-        setCurrentPage(1);
+        setInputValue(e.target.value);
     };
 
-    const goToPage = (pageNumber) => setCurrentPage(pageNumber);
+    const goToPage = (pageNumber) => {
+        if (pageNumber < 1 || pageNumber > totalPages) return;
+        setCurrentPage(pageNumber);
+    };
 
     return (
-        <div className="users-container">
-            <h3>Users Management</h3>
+        <div className="card">
+            <h3 className="testimonials-header">Testimonials Management</h3>
 
-            <div className="users-topbar">
-                <button className="users-add-btn" onClick={() => alert('Add User clicked')}>
-                    Add User
-                </button>
+            <div className="top-bar">
+                <Link to="/admin/testimonials/create" className="add-testimonial-button">
+                    Add Testimonial
+                </Link>
 
                 <input
+                    ref={inputRef}
                     type="text"
-                    className="users-search-input"
-                    placeholder="Search by name or email..."
-                    value={searchTerm}
+                    placeholder="Search by name or message..."
+                    value={inputValue}
                     onChange={handleSearchChange}
+                    className="search-input"
+                    autoComplete="off"
                 />
             </div>
 
-            <table className="users-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {currentUsers.length === 0 ? (
-                        <tr>
-                            <td colSpan="4" style={{ padding: 20, textAlign: 'center' }}>
-                                No users found.
-                            </td>
-                        </tr>
-                    ) : (
-                        currentUsers.map(user => (
-                            <tr key={user.id}>
-                                <td>{user.id}</td>
-                                <td>{user.name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.role}</td>
-                            </tr>
-                        ))
-                    )}
-                </tbody>
-            </table>
-
-            <div className="users-pagination">
-                <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
-                    Prev
-                </button>
-
-                {[...Array(totalPages)].map((_, i) => {
-                    const page = i + 1;
-                    return (
-                        <button
-                            key={page}
-                            onClick={() => goToPage(page)}
-                            className={currentPage === page ? 'active-page' : 'inactive-page'}
-                        >
-                            {page}
-                        </button>
-                    );
-                })}
-
-                <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages}>
-                    Next
-                </button>
-            </div>
+            <BaseTable
+                columns={[
+                    { key: 'name', label: 'Name' },
+                    { key: 'message', label: 'Message' },
+                    { key: 'role', label: 'Role' },
+                    {
+                        key: 'created_at',
+                        label: 'Created At',
+                        render: (row) => new Date(row.created_at).toLocaleDateString(),
+                    },
+                ]}
+                data={testimonials}
+                getRowId={(testimonial) => testimonial.id || testimonial._id}
+                actions={[
+                    {
+                        type: 'link',
+                        label: 'View',
+                        className: 'view',
+                        path: (id) => `/admin/testimonials/view/${id}`,
+                    },
+                    {
+                        type: 'link',
+                        label: 'Edit',
+                        className: 'edit',
+                        path: (id) => `/admin/testimonials/edit/${id}`,
+                    },
+                    {
+                        type: 'button',
+                        label: 'Delete',
+                        className: 'delete',
+                        onClick: (id) => console.log('Delete testimonial with id:', id), // replace with actual delete handler
+                    },
+                ]}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={goToPage}
+            />
         </div>
     );
 };
 
-export default Users;
+export default Testimonials;

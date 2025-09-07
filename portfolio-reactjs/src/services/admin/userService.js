@@ -1,18 +1,13 @@
-// src/services/userService.js
-import axios from 'axios';
-import { API_BASE_URL } from '../../utils/apiConfig';
+import { axiosInstance } from '../../utils/api';
 
 export const getUsers = async ({ page = 1, limit = 10, search = '' }) => {
-    const params = new URLSearchParams({
-        page,
-        limit,
-        search,
-    });
-    const response = await axios.get(`${API_BASE_URL}/users?${params.toString()}`);
-    return response.data;
+  const response = await axiosInstance.get('/users', {
+    params: { page, limit, search },
+  });
+  return response.data;
 };
 
 export const createUser = async (userData) => {
-  const response = await axios.post(`${API_BASE_URL}/users`, userData);
+  const response = await axiosInstance.post('/users', userData);
   return response.data;
 };

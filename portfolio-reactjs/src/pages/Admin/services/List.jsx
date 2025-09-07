@@ -1,115 +1,128 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import '../../../css/admin/list.css';
+import { fetchServices, deleteServiceHandler } from '../../../modules/admin/services';
+import useDebounce from '../../../hooks/useDebounce';
+import BaseTable from '../../../components/common/BaseTable';
 
-const sampleUsers = [
-    { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Admin' },
-    { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'Editor' },
-    { id: 3, name: 'Carol White', email: 'carol@example.com', role: 'Viewer' },
-    { id: 4, name: 'David Green', email: 'david@example.com', role: 'Editor' },
-    { id: 5, name: 'Eve Black', email: 'eve@example.com', role: 'Admin' },
-    { id: 6, name: 'Frank Brown', email: 'frank@example.com', role: 'Viewer' },
-    { id: 7, name: 'Grace Lee', email: 'grace@example.com', role: 'Editor' },
-    { id: 8, name: 'Hank Miller', email: 'hank@example.com', role: 'Viewer' },
-    { id: 9, name: 'Ivy Wilson', email: 'ivy@example.com', role: 'Admin' },
-    { id: 10, name: 'Jack Davis', email: 'jack@example.com', role: 'Editor' },
-    { id: 11, name: 'Kate Harris', email: 'kate@example.com', role: 'Viewer' },
-    { id: 12, name: 'Leo Martin', email: 'leo@example.com', role: 'Editor' },
-];
+const ServicesList = () => {
+  const [services, setServices] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-const Users = () => {
-    const [users, setUsers] = useState(sampleUsers);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const usersPerPage = 10;
+  const debouncedSearchTerm = useDebounce(inputValue, 500);
+  const servicesPerPage = 10;
 
-    const filteredUsers = users.filter(user =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  const inputRef = useRef(null);
 
-    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
-    const indexOfLastUser = currentPage * usersPerPage;
-    const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
-
-    const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
-        setCurrentPage(1);
+  useEffect(() => {
+    const loadServices = async () => {
+      try {
+        const data = await fetchServices({
+          page: currentPage,
+          limit: servicesPerPage,
+          search: debouncedSearchTerm,
+        });
+        setServices(data.services);
+        setTotalPages(data.totalPages);
+      } catch (error) {
+        console.error('Failed to fetch services:', error);
+      }
     };
 
-    const goToPage = (pageNumber) => setCurrentPage(pageNumber);
+    loadServices();
+  }, [currentPage, debouncedSearchTerm]);
 
-    return (
-        <div className="users-container">
-            <h3>Users Management</h3>
+  useEffect(() => {
+    setCurrentPage(1);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [debouncedSearchTerm]);
 
-            <div className="users-topbar">
-                <button className="users-add-btn" onClick={() => alert('Add User clicked')}>
-                    Add User
-                </button>
+  const handleSearchChange = (e) => {
+    setInputValue(e.target.value);
+  };
 
-                <input
-                    type="text"
-                    className="users-search-input"
-                    placeholder="Search by name or email..."
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                />
-            </div>
+  const goToPage = (pageNumber) => {
+    if (pageNumber < 1 || pageNumber > totalPages) return;
+    setCurrentPage(pageNumber);
+  };
 
-            <table className="users-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {currentUsers.length === 0 ? (
-                        <tr>
-                            <td colSpan="4" style={{ padding: 20, textAlign: 'center' }}>
-                                No users found.
-                            </td>
-                        </tr>
-                    ) : (
-                        currentUsers.map(user => (
-                            <tr key={user.id}>
-                                <td>{user.id}</td>
-                                <td>{user.name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.role}</td>
-                            </tr>
-                        ))
-                    )}
-                </tbody>
-            </table>
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this service?')) return;
 
-            <div className="users-pagination">
-                <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
-                    Prev
-                </button>
+    try {
+      await deleteServiceHandler(id);
+      // Reload services after delete
+      const data = await fetchServices({
+        page: currentPage,
+        limit: servicesPerPage,
+        search: debouncedSearchTerm,
+      });
+      setServices(data.services);
+      setTotalPages(data.totalPages);
+    } catch (error) {
+      console.error('Failed to delete service:', error);
+    }
+  };
 
-                {[...Array(totalPages)].map((_, i) => {
-                    const page = i + 1;
-                    return (
-                        <button
-                            key={page}
-                            onClick={() => goToPage(page)}
-                            className={currentPage === page ? 'active-page' : 'inactive-page'}
-                        >
-                            {page}
-                        </button>
-                    );
-                })}
+  return (
+    <div className="card">
+      <h3 className="services-header">Services Management</h3>
 
-                <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages}>
-                    Next
-                </button>
-            </div>
-        </div>
-    );
+      <div className="top-bar">
+        <Link to="/admin/services/create" className="add-service-button">
+          Add Service
+        </Link>
+
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder="Search by service name or description..."
+          value={inputValue}
+          onChange={handleSearchChange}
+          className="search-input"
+          autoComplete="off"
+        />
+      </div>
+
+      <BaseTable
+        columns={[
+          { key: 'name', label: 'Service Name' },
+          { key: 'description', label: 'Description' },
+          { key: 'status', label: 'Status' },
+          { key: 'created_at', label: 'Created At' },
+        ]}
+        data={services}
+        getRowId={(service) => service.id || service._id}
+        actions={[
+          {
+            type: 'link',
+            label: 'View',
+            className: 'view',
+            path: (id) => `/admin/services/view/${id}`,
+          },
+          {
+            type: 'link',
+            label: 'Edit',
+            className: 'edit',
+            path: (id) => `/admin/services/edit/${id}`,
+          },
+          {
+            type: 'button',
+            label: 'Delete',
+            className: 'delete',
+            onClick: handleDelete,
+          },
+        ]}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={goToPage}
+      />
+    </div>
+  );
 };
 
-export default Users;
+export default ServicesList;

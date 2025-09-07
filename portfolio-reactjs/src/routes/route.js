@@ -15,6 +15,16 @@ import UsersCreate from "../pages/Admin/users/Form";
 import SkillsList from "../pages/Admin/skills/List";
 import SkillsCreate from "../pages/Admin/skills/Form";
 
+import PortfolioList from "../pages/Admin/portfolio/List";
+import PortfolioCreate from "../pages/Admin/portfolio/Form";
+
+
+import ServicesList from "../pages/Admin/services/List";
+import ServicesCreate from "../pages/Admin/services/Form";
+
+
+import TestimonialsList from "../pages/Admin/testimonials/List";
+import TestimonialsCreate from "../pages/Admin/testimonials/Form";
 
 import Login from "../pages/Admin/Login";
 
@@ -97,6 +107,44 @@ const routes = [
         exact: true,
         name: "Create User",
         component: SkillsCreate,
+      },
+      {
+        path: "/admin/portfolio",
+        exact: true,
+        name: "Create User",
+        component: PortfolioList,
+      },
+      {
+        path: "/admin/portfolio/create",
+        exact: true,
+        name: "Create User",
+        component: PortfolioCreate,
+      },
+
+      {
+        path: "/admin/services",
+        exact: true,
+        name: "Create User",
+        component: ServicesList,
+      },
+      {
+        path: "/admin/services/create",
+        exact: true,
+        name: "Create User",
+        component: ServicesCreate,
+      },
+
+      {
+        path: "/admin/testimonials",
+        exact: true,
+        name: "Create User",
+        component: TestimonialsList,
+      },
+      {
+        path: "/admin/testimonials/create",
+        exact: true,
+        name: "Create User",
+        component: TestimonialsCreate,
       },
     ],
   },
