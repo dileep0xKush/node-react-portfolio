@@ -112,3 +112,21 @@
 .login-btn:hover {
   background-color: #2563eb;
 }
+
+.input-error {
+  border: 1px solid red;
+}
+
+.field-error {
+  color: red;
+  font-size: 0.85em;
+  margin-top: 5px;
+}
+
+.error-message {
+  background-color: #ffe5e5;
+  color: #d10000;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
