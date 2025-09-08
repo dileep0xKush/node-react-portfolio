@@ -48,7 +48,7 @@ const Skills = () => {
 
     return (
         <div className='card'>
-            <h3 className="skills-header">Skills Management</h3>
+            <h3 className="header">Skills Management</h3>
 
             <div className="top-bar">
                 <Link to="/admin/skills/create" className="add-button">

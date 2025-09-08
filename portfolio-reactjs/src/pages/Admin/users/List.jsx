@@ -49,7 +49,7 @@ const Users = () => {
 
   return (
     <div className='card'>
-      <h3 className="users-header">Users Management</h3>
+      <h3 className="header">Users Management</h3>
 
       <div className="top-bar">
         <Link to="/admin/users/create" className="add-button">

@@ -48,7 +48,7 @@ const Portfolio = () => {
 
   return (
     <div className="card">
-      <h3 className="portfolio-header">Portfolio Management</h3>
+      <h3 className="header">Portfolio Management</h3>
 
       <div className="top-bar">
         <Link to="/admin/portfolios/create" className="add-button">
