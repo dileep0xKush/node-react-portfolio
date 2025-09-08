@@ -51,7 +51,7 @@ const Skills = () => {
             <h3 className="skills-header">Skills Management</h3>
 
             <div className="top-bar">
-                <Link to="/admin/skills/create" className="add-skill-button">
+                <Link to="/admin/skills/create" className="add-button">
                     Add Skill
                 </Link>
 
@@ -70,7 +70,7 @@ const Skills = () => {
                 columns={[
                     { key: 'name', label: 'Name' },
                     { key: 'status', label: 'Status' },
-                    { key: 'created_at', label: 'Created At', render: (row) => new Date(row.created_at).toLocaleDateString() },
+                    { key: 'created_date', label: 'Created Date', render: (row) => new Date(row.created_date).toLocaleDateString() },
                 ]}
                 data={skills}
                 getRowId={(skill) => skill.id || skill._id}

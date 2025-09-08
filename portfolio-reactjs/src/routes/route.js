@@ -76,6 +76,16 @@ const routes = [
     name: "Admin",
     component: AdminLayout,
     routes: [
+
+      {
+        path: "/admin",
+        exact: true,
+        component: () => {
+          window.location.replace("/admin/dashboard");
+          return null;
+        },
+      },
+
       {
         path: "/admin/dashboard",
         exact: true,

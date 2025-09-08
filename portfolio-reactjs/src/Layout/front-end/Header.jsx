@@ -46,7 +46,7 @@ const Header = () => {
                             <Link to="/contact">Contact</Link>
                         </li>
                          <li>
-                            <Link to="/admin">Siteadmin</Link>
+                            <Link to="/login">Siteadmin</Link>
                         </li>
                     </ul>
                 </div>

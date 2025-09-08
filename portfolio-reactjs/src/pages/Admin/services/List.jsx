@@ -73,7 +73,7 @@ const ServicesList = () => {
       <h3 className="services-header">Services Management</h3>
 
       <div className="top-bar">
-        <Link to="/admin/services/create" className="add-service-button">
+        <Link to="/admin/services/create" className="add-button">
           Add Service
         </Link>
 

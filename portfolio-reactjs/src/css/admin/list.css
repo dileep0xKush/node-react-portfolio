@@ -25,7 +25,7 @@
 }
 
 /* Add User Button */
-.add-user-button {
+.add-button {
   margin-top: 10px;
   padding: 8px 16px;
   background-color: #3b82f6;
@@ -35,8 +35,9 @@
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-decoration: none;
 }
-.add-user-button:hover {
+.add-button:hover {
   background-color: #2563eb;
 }
 

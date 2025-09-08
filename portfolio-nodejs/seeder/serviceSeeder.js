@@ -12,9 +12,14 @@ const seedServices = async () => {
         const services = [];
 
         for (let i = 0; i < 30; i++) {
+            const descriptionArray = Array.from({ length: faker.number.int({ min: 2, max: 4 }) }, () =>
+                faker.lorem.sentence()
+            );
+
             services.push({
                 name: faker.company.name(),
                 image: faker.image.urlLoremFlickr({ width: 640, height: 480, category: "business" }),
+                description: descriptionArray,
                 status: faker.helpers.arrayElement(["active", "inactive"]),
                 created_at: faker.date.past(),
             });

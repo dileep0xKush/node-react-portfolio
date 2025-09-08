@@ -56,7 +56,7 @@ const Testimonials = () => {
             <h3 className="testimonials-header">Testimonials Management</h3>
 
             <div className="top-bar">
-                <Link to="/admin/testimonials/create" className="add-testimonial-button">
+                <Link to="/admin/testimonials/create" className="add-button">
                     Add Testimonial
                 </Link>
 
@@ -75,7 +75,6 @@ const Testimonials = () => {
                 columns={[
                     { key: 'name', label: 'Name' },
                     { key: 'message', label: 'Message' },
-                    { key: 'role', label: 'Role' },
                     {
                         key: 'created_at',
                         label: 'Created At',

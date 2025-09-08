@@ -52,7 +52,7 @@ const Users = () => {
       <h3 className="users-header">Users Management</h3>
 
       <div className="top-bar">
-        <Link to="/admin/users/create" className="add-user-button">
+        <Link to="/admin/users/create" className="add-button">
           Add User
         </Link>
 

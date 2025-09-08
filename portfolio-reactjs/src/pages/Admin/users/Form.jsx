@@ -92,7 +92,7 @@ const UserForm = ({ onCancel }) => {
                     <Link
                         to="/admin/users"
                         type="button"
-                        className="user-form-return"
+                        className="return-button"
                         onClick={onCancel}
                         disabled={loading}
                     >

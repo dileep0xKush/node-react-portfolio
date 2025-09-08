@@ -14,13 +14,16 @@ const seedPortfolios = async () => {
         const portfolios = [];
 
         for (let i = 0; i < 30; i++) {
+            const images = Array.from({ length: 3 }, () =>
+                faker.image.urlLoremFlickr({ width: 640, height: 480, category: 'tech' })
+            );
+
             portfolios.push({
-                name: [
-                    faker.word.noun(),
-                    faker.word.adjective(),
-                    faker.word.verb(),
-                ], 
-                image: faker.image.urlLoremFlickr({ width: 640, height: 480, category: 'tech' }),
+                name: faker.word.verb(), // or faker.company.name() for more realism
+                title: faker.company.catchPhrase(),
+                description: faker.lorem.paragraph(),
+                category: faker.commerce.department(),
+                image: images,
                 status: faker.helpers.arrayElement(['active', 'inactive']),
                 created_at: faker.date.past(),
             });

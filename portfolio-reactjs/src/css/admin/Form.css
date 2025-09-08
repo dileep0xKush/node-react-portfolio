@@ -89,7 +89,7 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
-.user-form-return {
+.return-button {
   background-color: #000;
   border: 1px solid #000;
   color: #fff;
@@ -98,14 +98,16 @@
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+
 }
 
-.user-form-return:hover:not(:disabled) {
+.return-button:hover:not(:disabled) {
   background-color: #222;
   color: #fff;
 }
 
-.user-form-return:disabled {
+.return-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
