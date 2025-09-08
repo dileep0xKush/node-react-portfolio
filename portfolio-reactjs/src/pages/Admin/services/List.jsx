@@ -70,7 +70,7 @@ const ServicesList = () => {
 
   return (
     <div className="card">
-      <h3 className="services-header">Services Management</h3>
+      <h3 className="header">Services Management</h3>
 
       <div className="top-bar">
         <Link to="/admin/services/create" className="add-button">

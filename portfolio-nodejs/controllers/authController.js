@@ -8,7 +8,7 @@ const loginUser = async (req, res, next) => {
         const { user, token } = await authService.login(email, password);
         res.status(200).json({ message: 'Login successful', user, token });
     } catch (error) {
-        res.status(401).json({ message: error.message });
+        res.status(403).json({ message: error.message });
     }
 };
 

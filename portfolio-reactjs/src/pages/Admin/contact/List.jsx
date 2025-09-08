@@ -38,10 +38,10 @@ const Users = () => {
     };
 
     const goToPage = (pageNumber) => setCurrentPage(pageNumber);
-
+    
     return (
         <div className="users-container">
-            <h3>Users Management</h3>
+            <h3 className="header">Users Management</h3>
 
             <div className="users-topbar">
                 <button className="users-add-btn" onClick={() => alert('Add User clicked')}>

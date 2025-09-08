@@ -28,7 +28,7 @@ const Siteadmin = () => {
 
   return (
     <div className="card">
-      <h2>Dashboard</h2>
+      <h3 className="header">Dashboard</h3>
       <div className="features-grid">
         {features.map((feature, idx) => (
           <div className="feature-card" key={idx}>

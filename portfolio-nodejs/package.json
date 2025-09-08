@@ -27,7 +27,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.0",
     "morgan": "^1.10.1",
-    "redis": "^5.8.2"
+    "redis": "^5.8.2",
+    "sweetalert2": "^11.23.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

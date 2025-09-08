@@ -53,7 +53,7 @@ const Testimonials = () => {
 
     return (
         <div className="card">
-            <h3 className="testimonials-header">Testimonials Management</h3>
+            <h3 className="header">Testimonials Management</h3>
 
             <div className="top-bar">
                 <Link to="/admin/testimonials/create" className="add-button">

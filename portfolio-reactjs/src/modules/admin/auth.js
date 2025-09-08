@@ -1,4 +1,4 @@
-import { loginAdmin } from '../../services/admin/authService';
+import { loginAdmin, logoutAdmin } from '../../services/admin/authService';
 
 export const handleAdminLogin = async (formData) => {
     try {
@@ -17,3 +17,15 @@ export const handleAdminLogin = async (formData) => {
         };
     }
 };
+
+export const handleAdminLogout = async () => {
+    try {
+        await logoutAdmin();
+        localStorage.removeItem('authToken');
+        return { success: true };
+    } catch (error) {
+        console.error('Logout error:', error);
+        return { success: false, message: error.message };
+    }
+};
+
